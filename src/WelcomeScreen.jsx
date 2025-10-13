@@ -2,13 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function WelcomeScreen() {
+  //State to track dark mode (true = dark mode on)
   const [darkMode, setDarkMode] = useState(false);
+  // Hook to navigate between pages
   const navigate = useNavigate();
 
+  // Function to move to the next screen
   const goNext = () => {
     navigate('/next');
   };
 
+  //load saved theme preference from localStorage
   useEffect(() => {
     const storedTheme = localStorage.getItem('theme');
     if (storedTheme === 'dark') {
@@ -17,6 +21,7 @@ export default function WelcomeScreen() {
     }
   }, []);
 
+  // Toggle light/dark mode and save preference to localStorage
   const toggleTheme = () => {
     const newTheme = !darkMode;
     setDarkMode(newTheme);
@@ -41,6 +46,7 @@ export default function WelcomeScreen() {
 
       {/* Box */}
       <div className="flex w-[80%] h-[80%] bg-white dark:bg-gray-800 rounded-3xl shadow-2xl overflow-hidden transition-all duration-500">
+        {/* Left Section (Text + Button) */}
         <div className="w-1/2 p-12 flex flex-col justify-between">
           <div>
             <h1 className="text-3xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
@@ -83,7 +89,7 @@ export default function WelcomeScreen() {
             </div>
           </div>
         </div>
-
+        {/* Right Section (Image / Logo area)  */}
         <div className="w-1/2 bg-gradient-to-br from-blue-400 to-blue-700 dark:from-blue-700 dark:to-blue-900 flex items-center justify-center">
           <div className="bg-white bg-opacity-20 p-12 rounded-2xl">
             <img

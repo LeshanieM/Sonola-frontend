@@ -1,8 +1,9 @@
+//for you and recents cards
 
 export default function Card({ image, title, description, status }) {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow hover:shadow-lg transition-all duration-300 p-4 w-64">
-      <div className="relative rounded-xl overflow-hidden h-36 mb-3">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow hover:shadow-lg transition-all duration-300 p-2 w-64">
+      <div className="relative rounded-xl overflow-hidden h-26 mb-2">
         <img
           src={image}
           alt={title}

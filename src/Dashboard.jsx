@@ -12,6 +12,7 @@ import {
 export default function Dashboard() {
   const [darkMode, setDarkMode] = useState(false);
 
+  //Load theme from localStorage
   useEffect(() => {
     const storedTheme = localStorage.getItem('theme');
     if (storedTheme === 'dark') {
@@ -20,6 +21,7 @@ export default function Dashboard() {
     }
   }, []);
 
+  //Toggle light/dark mode
   const toggleTheme = () => {
     const newTheme = !darkMode;
     setDarkMode(newTheme);
@@ -32,6 +34,7 @@ export default function Dashboard() {
     }
   };
 
+  //Cards data
   const cards = [
     {
       image: 'webpage.png',
@@ -55,18 +58,30 @@ export default function Dashboard() {
     },
   ];
 
+  //Reusable Card component
   const Card = ({ image, title, description }) => (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow p-6 flex flex-col items-center text-center hover:shadow-lg transition">
-      <img src={image} alt={title} className="w-20 h-20 mb-4" />
-      <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
-        {title}
-      </h3>
-      <p className="text-gray-600 dark:text-gray-300">{description}</p>
+    <div className="group relative bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col">
+      {/* change card height here*/}
+      <div className="h-20 w-full overflow-hidden">
+        <img
+          src={image}
+          alt={title}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        />
+      </div>
+      <div className="p-4 flex flex-col flex-grow">
+        <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-1">
+          {title}
+        </h3>
+        <p className="text-gray-600 dark:text-gray-300 text-sm leading-snug">
+          {description}
+        </p>
+      </div>
     </div>
   );
 
   return (
-    <div className="min-h-screen w-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-500 overflow-x-hidden">
+    <div className="flex h-screen w-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-500 overflow-hidden">
       {/* SIDEBAR */}
       <aside className="fixed top-0 left-0 h-full w-20 bg-white dark:bg-gray-800 shadow-lg flex flex-col items-center justify-between py-6">
         <div className="flex flex-col items-center gap-6">
@@ -109,13 +124,13 @@ export default function Dashboard() {
       </aside>
 
       {/* MAIN CONTENT */}
-      <div className="ml-20 flex-1 overflow-x-hidden">
+      <div className="ml-20 flex-1 overflow-hidden flex flex-col">
         {/* Header */}
-        <header className="flex justify-between items-center bg-white dark:bg-gray-800 shadow-md px-6 py-4">
-          {/* Left side: Logo + Name */}
+        <header className="flex justify-between items-center bg-white dark:bg-gray-800 shadow-md px-6 py-3">
+          {/* Logo */}
           <div className="flex items-center gap-3">
             <img
-              src="/logo.png" // replace with your logo path
+              src="/logo.png"
               alt="Sonola Logo"
               className="w-10 h-10 object-cover"
             />
@@ -124,7 +139,7 @@ export default function Dashboard() {
             </span>
           </div>
 
-          {/* Middle: Search Bar */}
+          {/* Search */}
           <div className="flex-1 mx-6">
             <input
               type="text"
@@ -133,62 +148,55 @@ export default function Dashboard() {
             />
           </div>
 
-          {/* Right side: Dark Mode Toggle */}
-          <div className="flex items-center gap-4">
-            <button
-              onClick={toggleTheme}
-              className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 px-4 py-2 rounded-lg shadow hover:bg-gray-300 dark:hover:bg-gray-600 transition"
-            >
-              {darkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
-            </button>
-          </div>
+          {/* Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 px-4 py-2 rounded-lg shadow hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+          >
+            {darkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
+          </button>
         </header>
 
-        {/* Hero Section */}
-        <section className="w-full bg-gradient-to-br from-purple-100 via-purple-50 to-white dark:from-gray-800 dark:via-gray-900 dark:to-gray-900 py-12 px-6 lg:px-12 rounded-3xl shadow-inner mt-6 flex flex-col lg:flex-row items-start justify-start gap-6">
-          {/* Left Text */}
-          <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-md">
-            <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+        {/* HERO */}
+        <section className="bg-gradient-to-br from-purple-100 via-purple-50 to-white dark:from-gray-800 dark:via-gray-900 dark:to-gray-900 px-20 py-8 flex flex-col lg:flex-row items-center justify-between rounded-3xl mx-6 mt-4 shadow">
+          {/* Text content */}
+          <div className="text-center lg:text-left max-w-md">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
               Getting started in Sonola
             </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
+            <p className="text-gray-600 dark:text-gray-300 mb-3">
               Create intriguing marketing contents with ease!
             </p>
-            <button className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-semibold shadow-lg transition">
-              <span className="mr-2">➕</span> Start creating now
+            <button className="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-semibold shadow transition">
+              ➕ Start creating now
             </button>
           </div>
 
-          {/* Right Grid */}
-          <div className="grid grid-cols-2 gap-2 max-w-lg">
-            <div className="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow">
+          <div className="grid grid-cols-2 gap-3 max-w-md mt-6 lg:mt-0">
+            <div className="bg-white dark:bg-gray-800 p-3 rounded-2xl shadow">
               <p className="font-semibold text-gray-800 dark:text-gray-100">
-                Increase Customer Retention by 85%
-              </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                AI Summarised Reports
+                Customer Retention +85%
               </p>
               <img
                 src="/chart.png"
                 alt="Chart"
-                className="mt-3 rounded-lg object-cover w-full h-32"
+                className="mt-2 rounded-lg object-cover w-full h-20"
               />
             </div>
 
-            <div className="bg-white dark:bg-gray-800 p-2 rounded-2xl shadow flex flex-col justify-center items-center">
+            <div className="bg-white dark:bg-gray-800 p-3 rounded-2xl shadow text-center">
               <img
                 src="/emma.png"
-                alt="Emma Owens"
-                className="rounded-xl w-full h-28 object-cover"
+                alt="Emma"
+                className="rounded-xl w-full h-20 object-cover"
               />
               <p className="font-semibold text-gray-900 dark:text-white mt-2">
                 Emma Owens
               </p>
               <p className="text-xs text-gray-500 dark:text-gray-400">
-                Lead Project Director
+                Lead Director
               </p>
             </div>
-
             <div className="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow text-center flex flex-col justify-center">
               <img
                 src="/collaborate.png"
@@ -198,70 +206,69 @@ export default function Dashboard() {
               <p className="font-semibold text-gray-900 dark:text-white">
                 Collaborate
               </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Invite people
-              </p>
             </div>
-
             <div className="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow text-center flex flex-col justify-center">
               <img
-                src="/inter.png"
-                alt="integrate"
+                src="/social.png"
+                alt="social"
                 className="rounded-xl w-full h-28 object-cover"
               />
-              <p className="font-semibold text-gray-900 dark:text-white">
-                Integrations
-              </p>
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                Connect with your favourite apps
+                Invite people
               </p>
             </div>
           </div>
         </section>
 
-        {/* Cards Section */}
-        <main className="p-8">
-          <div className="max-w-6xl mx-auto">
-            {/* For You Section */}
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
-              For You
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-              {cards.map((card) => (
-                <Card key={card.title} {...card} />
-              ))}
-            </div>
+        {/* MAIN SECTIONS */}
+        <main className="flex-1 overflow-hidden p-6">
+          <div className="max-w-6xl mx-auto space-y-4">
+            {/* For You */}
+            <section>
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                For You
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                {cards.map((card) => (
+                  <Card key={card.title} {...card} />
+                ))}
+              </div>
+            </section>
 
-            {/* Recent Section */}
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
-              Recent
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-              {[
-                {
-                  image: 'document.png',
-                  title: 'Document',
-                  description: 'Started 2 days ago',
-                },
-                {
-                  image: 'web.png',
-                  title: 'Web Pages',
-                  description: 'Updated yesterday',
-                },
-                {
-                  image: 'sec.png',
-                  title: '60 Second Cut',
-                  description: 'Edited today',
-                },
-                {
-                  image: 'page.png',
-                  title: 'Web Pages',
-                  description: 'Created 3 days ago',
-                },
-              ].map((item) => (
-                <Card key={item.title} {...item} />
-              ))}
-            </div>
+            {/* Recent */}
+            <section>
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                Recent
+              </h2>
+              <div className="h-48 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                  {[
+                    {
+                      image: 'document.png',
+                      title: 'Document',
+                      description: 'Started 2 days ago',
+                    },
+                    {
+                      image: 'web.png',
+                      title: 'Web Pages',
+                      description: 'Updated yesterday',
+                    },
+                    {
+                      image: 'sec.png',
+                      title: '60 Second Cut',
+                      description: 'Edited today',
+                    },
+                    {
+                      image: 'page.png',
+                      title: 'Web Pages',
+                      description: 'Created 3 days ago',
+                    },
+                  ].map((item) => (
+                    <Card key={item.title} {...item} />
+                  ))}
+                </div>
+              </div>
+            </section>
           </div>
         </main>
       </div>
